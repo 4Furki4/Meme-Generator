@@ -1,22 +1,13 @@
-
-import Image from 'next/image'
-import getMeme from './methods/getMeme'
+import MainMeme from './Components/MainMeme'
+import getMemes from './methods/getMemes'
 
 export default async function Home() {
-  const data: MemeResponse = await getMeme()
+  const data: MemeResponse = await getMemes()
   if (!data.success) return <h1>Something went wrong</h1>
+  const randomMeme = data.data.memes[Math.floor(Math.random() * data.data.memes.length)]
   return (
     <main>
-      {data && (
-        <>
-          {data.data.memes.map((meme) => (
-            <div key={meme.id}>
-              <h2>{meme.name}</h2>
-              <Image alt={meme.name} src={meme.url} width={meme.width} height={meme.height} />
-            </div>
-          ))}
-        </>
-      )}
+      <MainMeme randomMeme={randomMeme} />
     </main>
   )
 }
