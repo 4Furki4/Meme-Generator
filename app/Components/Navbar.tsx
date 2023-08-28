@@ -9,7 +9,7 @@ import Link from 'next/link'
 export default function Navbar() {
     const { theme, setTheme } = useTheme()
     return (
-        <nav className='w-3/4 mx-auto flex justify-center items-center py-1 px-2 gap-2'>
+        <nav className='w-3/4 mx-auto flex justify-center items-center py-1 px-2 gap-2 shadow-sm shadow-border'>
             <Link href={""} className="hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2">
                 <GithubIcon />
             </Link>

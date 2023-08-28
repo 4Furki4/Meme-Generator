@@ -1,12 +1,13 @@
 import Image from "next/image"
 
 
-export default function MainMeme({ randomMeme }: { randomMeme: Meme }) {
+export default function MainMeme({ randomMeme }: { randomMeme: Meme | null }) {
     return (
-        <div className="w-full h-full ">
+        <div className="basis-full rounded-lg">
             {randomMeme && (
                 <>
                     <Image
+                        className="rounded-lg"
                         alt={randomMeme?.name}
                         width={500}
                         height={500}
