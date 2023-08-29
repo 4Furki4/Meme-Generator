@@ -74,6 +74,8 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                                     width={50}
                                                     height={50}
                                                     className="rounded-lg"
+                                                    loading='lazy'
+                                                    sizes='50px'
                                                 />
                                                 <CardDescription>{meme?.name}</CardDescription>
                                             </CommandItem>
@@ -91,6 +93,7 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                 <Card>
                     <CardContent className='flex gap-1 sm:gap-4 items-center max-sm:p-1'>
                         <Input placeholder='Text #1' />
+                        {/* Text and Outline colors with info that's being displayed when hovered start */}
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger className='w-20 cursor-pointer' asChild>
@@ -109,6 +112,9 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
+                        {/* Text and Outline colors with info that's being displayed when hovered start */}
+
+                        {/* Settings button start */}
                         <Popover open={openSettings} onOpenChange={setOpenSettings}>
                             <PopoverTrigger asChild>
                                 <Button variant="outline" className='mx-auto justify-between'>
@@ -116,6 +122,7 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className='w-80 grid gap-4'>
+                                {/* Text Decoration Starts */}
                                 <div className='w-full justify-between flex items-center space-x-2'>
                                     <div className='flex items-center space-x-2'>
                                         <Checkbox id='all-caps' />
@@ -139,6 +146,9 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                         </label>
                                     </div>
                                 </div>
+                                {/* Text Decoration Ends */}
+
+                                {/* Text Shadow-Outline Starts */}
                                 <RadioGroup className='w-full flex justify-between'>
                                     <div className='flex items-center space-x-2'>
                                         <RadioGroupItem value='shadow' id='shadow' />
@@ -153,6 +163,7 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                         <Label className='cursor-pointer' htmlFor='none'>None</Label>
                                     </div>
                                 </RadioGroup>
+
                                 <div className="grid grid-cols-3 items-center gap-4">
                                     <Label className='col-span-2' htmlFor='outline-width'>
                                         {"Outline Width (px)"}
@@ -165,6 +176,7 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                     </Label>
                                     <Input className='col-span-1' id='font-size' type='number' />
                                 </div>
+                                {/* Text Alignment Starts */}
                                 <div className="grid grid-cols-2 items-center gap-4">
                                     <Label htmlFor='font-size'>
                                         {"Text Align"}
@@ -183,6 +195,9 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                         </SelectContent>
                                     </Select>
                                 </div>
+                                {/* Text Alignment Ends */}
+
+                                {/* Vertical Alignment Starts */}
                                 <div className="grid grid-cols-2 items-center gap-4">
                                     <Label htmlFor='font-size'>
                                         {"Vertical Align"}
@@ -201,6 +216,9 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                         </SelectContent>
                                     </Select>
                                 </div>
+                                {/* Vertical Alignment Ends */}
+
+                                {/* Opacity Starts */}
                                 <div className='grid grid-cols-7 items-center gap-2'>
                                     <Label className='col-span-2'>Opacity</Label>
                                     <Slider
@@ -211,9 +229,12 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                         step={1} />
                                     <Input max={1} min={0} className='col-span-2' id='opacity' type='number' />
                                 </div>
+                                {/* Opacity Ends */}
+
                                 {/* TODO: FONT FAMILY OPTIONS */}
                             </PopoverContent>
                         </Popover>
+                        {/* Settings button end */}
                     </CardContent>
                 </Card>
                 {/* Text Settings End */}
