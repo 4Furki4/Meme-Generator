@@ -13,9 +13,7 @@ type Meme = {
     "box_count": number,
     "captions": number
 }
-
-type MemeTextSettings = {
-    id: number
+type MemeTextSetting = {
     text: string
     width: number
     height: number
@@ -24,4 +22,8 @@ type MemeTextSettings = {
     fontSize: number
     fontFamily: string
     textAlign: string
+}
+type MemeTextSettings = {
+    id: string
+    settings: MemeTextSetting[]
 }
