@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Slider } from '@/components/ui/slider'
-
+import { getFontFamilies } from '@/lib/fontFamily'
 export default function MemeSettings({ settings, setSettings, otherMemes, setOtherMemes, selectedMeme, setSelectedMeme }:
     {
         settings: MemeTextSettings,
@@ -27,6 +27,8 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
     const [openOtherMemes, setOpenOtherMemes] = React.useState(false)
     const [openSettings, setOpenSettings] = React.useState(false)
     const [memeValue, setMemeValue] = React.useState("")
+    const [openFontFamily, setOpenFontFamily] = React.useState(false)
+    const [selectedFontFamily, setSelectedFontFamily] = React.useState("")
     return (
         <Card className='basis-full'>
             <CardHeader>
@@ -122,6 +124,49 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className='w-80 grid gap-4'>
+                                {/* Font Family Starts */}
+                                <Popover open={openFontFamily} onOpenChange={setOpenFontFamily}>
+                                    <PopoverTrigger asChild>
+                                        <Button variant="outline" className='justify-between'>
+                                            {
+                                                selectedFontFamily === "" ? "Select a font" : selectedFontFamily
+                                            }
+                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className='w-80 grid gap-4'>
+                                        <Command>
+                                            <CommandInput className='p-4' placeholder="Search for a font" />
+                                            <CommandEmpty>No Fonts Found</CommandEmpty>
+                                            <CommandGroup className='h-40 overflow-y-scroll'>
+                                                {
+                                                    getFontFamilies().map((font, index) => (
+                                                        <CommandItem
+                                                            className='cursor-pointer'
+                                                            key={index}
+                                                            onSelect={(currentFont) => {
+                                                                setSelectedFontFamily(currentFont === selectedFontFamily ? "" : currentFont)
+                                                                setOpenFontFamily(false)
+                                                            }}
+                                                        >
+                                                            <Check
+                                                                className={
+                                                                    cn("mr-2 h-4 w-4",
+                                                                        font.toLowerCase() === selectedFontFamily.toLowerCase() ? "opacity-100" : "opacity-0"
+                                                                    )
+                                                                }
+                                                            />
+                                                            <CardDescription>{font}</CardDescription>
+                                                        </CommandItem>
+                                                    ))
+                                                }
+                                            </CommandGroup>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
+
+
+                                {/* Font Family Ends */}
                                 {/* Text Decoration Starts */}
                                 <div className='w-full justify-between flex items-center space-x-2'>
                                     <div className='flex items-center space-x-2'>
