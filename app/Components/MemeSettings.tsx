@@ -10,18 +10,18 @@ import { Check, ChevronsUpDown } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import ExtendedSettings from './ExtendedSettings'
+import { SettingsContext } from '@/context/SettingsProvider'
 
 
 
-export default function MemeSettings({ settings, setSettings, otherMemes, setOtherMemes, selectedMeme, setSelectedMeme }:
+export default function MemeSettings({ otherMemes, setOtherMemes, selectedMeme, setSelectedMeme }:
     {
-        settings: MemeTextSettings,
-        setSettings: React.Dispatch<React.SetStateAction<MemeTextSettings>>,
         otherMemes: Meme[],
         setOtherMemes: React.Dispatch<React.SetStateAction<Meme[]>>,
         selectedMeme: Meme | null,
         setSelectedMeme: React.Dispatch<React.SetStateAction<Meme | null>>,
     }) {
+    const context = React.useContext(SettingsContext)
     const [openOtherMemes, setOpenOtherMemes] = React.useState(false)
     const [memeValue, setMemeValue] = React.useState("")
     function getSettings() {
@@ -33,7 +33,25 @@ export default function MemeSettings({ settings, setSettings, otherMemes, setOth
                         {/* Text Settings Start */}
                         <Card>
                             <CardContent className='flex gap-1 sm:gap-4 items-center max-sm:p-1'>
-                                <Input placeholder='Text #1' />
+                                <Input placeholder='Text #1' value={context?.memeSettings?.settings[i]?.text} onChange={(e) => {
+                                    const text = e.target.value
+                                    context?.setMemeSettings((prev: MemeTextSettings) => {
+                                        return {
+                                            ...prev,
+                                            settings: prev?.settings.map((setting, index) => {
+                                                if (index === i) {
+                                                    return {
+                                                        ...setting,
+                                                        text
+                                                    }
+                                                }
+                                                return setting
+                                            }
+                                            )
+                                        }
+                                    }
+                                    )
+                                }} />
                                 {/* Text and Outline colors with info that's being displayed when hovered start */}
                                 <TooltipProvider>
                                     <Tooltip>

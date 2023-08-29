@@ -27,3 +27,7 @@ type MemeTextSettings = {
     id: string
     settings: MemeTextSetting[]
 }
+type SettingsContext = {
+    memeSettings: MemeTextSettings | null,
+    setMemeSettings: Dispatch<SetStateAction<MemeTextSettings | null>>
+} | null
