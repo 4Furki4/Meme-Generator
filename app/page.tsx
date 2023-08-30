@@ -10,42 +10,15 @@ export default function Home() {
   const [otherMemes, setOtherMemes] = useState<Meme[]>([])
   const [isMemeLoading, setIsMemeLoading] = useState<boolean>(true)
   const [selectedMeme, setSelectedMeme] = useState<Meme | null>(null)
-  const [memeSettings, setMemeSettings] = useState<MemeTextSettings | null>(() => {
-    const memeSetting: MemeTextSetting[] = []
-    let memeSettings: MemeTextSettings = {
-      id: "",
-      settings: []
-    };
-    for (let i = 0; i < selectedMeme?.box_count!; i++) {
-      memeSetting.push({
-        color: '#ffffff',
-        fontSize: 50,
-        text: '',
-        fontFamily: 'Impact',
-        textAlign: 'left',
-        width: 500,
-        height: 500,
-        outlineColor: '#000000',
-      })
-    }
-    memeSettings.id = selectedMeme?.id!
-    memeSettings.settings = memeSetting
-    return memeSettings
-  })
+  const [memeSettings, setMemeSettings] = useState<MemeTextSettings | null>(null)
   useEffect(() => {
     const fetchMemes = async () => {
       try {
-        const data: MemeResponse = await getMemes()
-        setData({ success: true, data: data.data })
-        setIsMemeLoading(false)
-        setSelectedMeme(data.data.memes[Math.floor(Math.random() * data.data.memes.length)])
-        setOtherMemes(data.data.memes.filter((meme) => meme.id !== selectedMeme?.id))
-      } catch (error) {
-        console.log(error)
-        setData({ success: false, data: { memes: [] } })
-        setIsMemeLoading(false)
-      } finally {
-        setIsMemeLoading(false)
+        const response: MemeResponse = await getMemes()
+        if (!response.success) throw new Error('Something went wrong')
+        setData(() => response)
+        setSelectedMeme(() => response.data.memes[Math.floor(Math.random() * response.data.memes.length)])
+        setOtherMemes(() => response.data.memes.filter((meme) => meme.id !== selectedMeme?.id))
         setMemeSettings(() => {
           const memeSetting: MemeTextSetting[] = []
           let memeSettings: MemeTextSettings = {
@@ -68,10 +41,42 @@ export default function Home() {
           memeSettings.settings = memeSetting
           return memeSettings
         })
+        setIsMemeLoading(() => false)
+      } catch (error) {
+        console.log(error)
+        setData({ success: false, data: { memes: [] } })
+        setIsMemeLoading(() => false)
+      } finally {
+        setIsMemeLoading(() => false)
       }
     }
     fetchMemes()
   }, [])
+  useEffect(() => {
+    setOtherMemes(() => data.data.memes.filter((meme) => meme.id !== selectedMeme?.id))
+    setMemeSettings(() => {
+      const memeSetting: MemeTextSetting[] = []
+      let memeSettings: MemeTextSettings = {
+        id: "",
+        settings: []
+      };
+      for (let i = 0; i < selectedMeme?.box_count!; i++) {
+        memeSetting.push({
+          color: '#ffffff',
+          fontSize: 50,
+          text: '',
+          fontFamily: 'Impact',
+          textAlign: 'left',
+          width: 500,
+          height: 500,
+          outlineColor: '#000000',
+        })
+      }
+      memeSettings.id = selectedMeme?.id!
+      memeSettings.settings = memeSetting
+      return memeSettings
+    })
+  }, [selectedMeme])
   if (isMemeLoading) return <h1>Loading...</h1>
   if (!data.success) return <h1>Something went wrong</h1>
   return (

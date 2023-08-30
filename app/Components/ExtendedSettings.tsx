@@ -1,23 +1,45 @@
 import { Button } from '@/components/ui/button'
 import { CardDescription } from '@/components/ui/card'
-import { CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Slider } from '@/components/ui/slider'
-import { Check, ChevronsUpDown, Command, Settings } from 'lucide-react'
+import { Check, ChevronsUpDown, Settings } from 'lucide-react'
 import { getFontFamilies } from '@/lib/fontFamily'
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
+import { SettingsContext } from '@/context/SettingsProvider'
 
-export default function ExtendedSettings() {
+export default function ExtendedSettings({ index }: {
+    index: number
+}) {
 
-    const [openSettings, setOpenSettings] = React.useState(false)
-    const [openFontFamily, setOpenFontFamily] = React.useState(false)
-    const [selectedFontFamily, setSelectedFontFamily] = React.useState("")
+    const context = useContext(SettingsContext)
+    function handleChangeFontFamily(currentFont: string) {
+        setSelectedFontFamily(() => currentFont === selectedFontFamily ? "" : currentFont)
+        context?.setMemeSettings((prev: MemeTextSettings) => {
+            return {
+                ...prev,
+                settings: prev?.settings.map((setting, i) => {
+                    if (i === index) {
+                        return {
+                            ...setting,
+                            fontFamily: currentFont
+                        }
+                    }
+                    return setting
+                })
+            }
+        })
+        setOpenFontFamily(false)
+    }
+    const [openSettings, setOpenSettings] = useState(false)
+    const [openFontFamily, setOpenFontFamily] = useState(false)
+    const [selectedFontFamily, setSelectedFontFamily] = useState("")
     return (
         <>
             <Popover open={openSettings} onOpenChange={setOpenSettings}>
@@ -47,10 +69,7 @@ export default function ExtendedSettings() {
                                             <CommandItem
                                                 className='cursor-pointer'
                                                 key={index}
-                                                onSelect={(currentFont) => {
-                                                    setSelectedFontFamily(currentFont === selectedFontFamily ? "" : currentFont)
-                                                    setOpenFontFamily(false)
-                                                }}
+                                                onSelect={(currentFamily) => handleChangeFontFamily(currentFamily)}
                                             >
                                                 <Check
                                                     className={

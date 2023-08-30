@@ -33,7 +33,7 @@ export default function MemeSettings({ otherMemes, setOtherMemes, selectedMeme, 
                         {/* Text Settings Start */}
                         <Card>
                             <CardContent className='flex gap-1 sm:gap-4 items-center max-sm:p-1'>
-                                <Input placeholder='Text #1' value={context?.memeSettings?.settings[i]?.text} onChange={(e) => {
+                                <Input placeholder='Text #1' value={context?.memeSettings?.settings[i]?.text ?? ""} onChange={(e) => {
                                     const text = e.target.value
                                     context?.setMemeSettings((prev: MemeTextSettings) => {
                                         return {
@@ -73,7 +73,7 @@ export default function MemeSettings({ otherMemes, setOtherMemes, selectedMeme, 
                                 </TooltipProvider>
                                 {/* Text and Outline colors with info that's being displayed when hovered start */}
                                 {/* Settings button start */}
-                                <ExtendedSettings />
+                                <ExtendedSettings index={i} />
                                 {/* Settings button end */}
                             </CardContent>
                         </Card>
