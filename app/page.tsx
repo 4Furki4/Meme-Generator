@@ -19,28 +19,6 @@ export default function Home() {
         setData(() => response)
         setSelectedMeme(() => response.data.memes[Math.floor(Math.random() * response.data.memes.length)])
         setOtherMemes(() => response.data.memes.filter((meme) => meme.id !== selectedMeme?.id))
-        setMemeSettings(() => {
-          const memeSetting: MemeTextSetting[] = []
-          let memeSettings: MemeTextSettings = {
-            id: "",
-            settings: []
-          };
-          for (let i = 0; i < selectedMeme?.box_count!; i++) {
-            memeSetting.push({
-              color: '#ffffff',
-              fontSize: 50,
-              text: '',
-              fontFamily: 'Impact',
-              textAlign: 'left',
-              width: 500,
-              height: 500,
-              outlineColor: '#000000',
-            })
-          }
-          memeSettings.id = selectedMeme?.id!
-          memeSettings.settings = memeSetting
-          return memeSettings
-        })
         setIsMemeLoading(() => false)
       } catch (error) {
         console.log(error)
@@ -67,9 +45,16 @@ export default function Home() {
           text: '',
           fontFamily: 'Impact',
           textAlign: 'left',
+          verticalAlign: 'top',
           width: 500,
           height: 500,
+          textDecoration: 'outline',
           outlineColor: '#000000',
+          outlineWidth: 50,
+          isAllCaps: true,
+          isBold: false,
+          isItalic: false,
+          opacity: 1
         })
       }
       memeSettings.id = selectedMeme?.id!

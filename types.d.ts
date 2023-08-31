@@ -13,15 +13,24 @@ type Meme = {
     "box_count": number,
     "captions": number
 }
+
+
 type MemeTextSetting = {
     text: string
     width: number
     height: number
     color: string
+    isAllCaps: boolean
+    isBold: boolean
+    isItalic: boolean
+    textDecoration: "shadow" | "outline" | "none"
     outlineColor: string
+    outlineWidth: number
     fontSize: number
     fontFamily: string
-    textAlign: string
+    textAlign: "left" | "center" | "right"
+    verticalAlign: "top" | "center" | "bottom"
+    opacity: number
 }
 type MemeTextSettings = {
     id: string

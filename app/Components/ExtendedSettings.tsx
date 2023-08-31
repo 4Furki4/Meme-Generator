@@ -13,33 +13,18 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
 import { SettingsContext } from '@/context/SettingsProvider'
-
+import { handleAllCapsed, handleBolded, handleChangeFontFamily, handleFontSizeChange, handleItalicized, handleOpacityChange, handleOutlineWidthChange, handleTextAlignChange, handleTextDecoration, handleVerticalAlignChange } from '@/lib/stateHandlers'
 export default function ExtendedSettings({ index }: {
     index: number
 }) {
 
     const context = useContext(SettingsContext)
-    function handleChangeFontFamily(currentFont: string) {
-        setSelectedFontFamily(() => currentFont === selectedFontFamily ? "" : currentFont)
-        context?.setMemeSettings((prev: MemeTextSettings) => {
-            return {
-                ...prev,
-                settings: prev?.settings.map((setting, i) => {
-                    if (i === index) {
-                        return {
-                            ...setting,
-                            fontFamily: currentFont
-                        }
-                    }
-                    return setting
-                })
-            }
-        })
-        setOpenFontFamily(false)
-    }
     const [openSettings, setOpenSettings] = useState(false)
     const [openFontFamily, setOpenFontFamily] = useState(false)
-    const [selectedFontFamily, setSelectedFontFamily] = useState("")
+    const [selectedFontFamily, setSelectedFontFamily] = useState(() => context?.memeSettings?.settings[index]?.fontFamily ?? "")
+    useEffect(() => {
+        setSelectedFontFamily(() => context?.memeSettings?.settings[index]?.fontFamily ?? "")
+    }, [context?.memeSettings?.settings[index]?.fontFamily])
     return (
         <>
             <Popover open={openSettings} onOpenChange={setOpenSettings}>
@@ -69,7 +54,7 @@ export default function ExtendedSettings({ index }: {
                                             <CommandItem
                                                 className='cursor-pointer'
                                                 key={index}
-                                                onSelect={(currentFamily) => handleChangeFontFamily(currentFamily)}
+                                                onSelect={(currentFamily) => handleChangeFontFamily(currentFamily, selectedFontFamily, context, index, setOpenFontFamily, setSelectedFontFamily)}
                                             >
                                                 <Check
                                                     className={
@@ -92,21 +77,33 @@ export default function ExtendedSettings({ index }: {
                     {/* Text Decoration Starts */}
                     <div className='w-full justify-between flex items-center space-x-2'>
                         <div className='flex items-center space-x-2'>
-                            <Checkbox id='all-caps' />
+                            <Checkbox
+                                checked={context?.memeSettings?.settings[0]?.isAllCaps}
+                                onCheckedChange={() => handleAllCapsed(context, index)}
+                                id='all-caps'
+                            />
                             <label htmlFor="all-caps"
                                 className="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70 select-none">
                                 ALL CAPS
                             </label>
                         </div>
                         <div className='flex items-center space-x-2'>
-                            <Checkbox id='bold' />
+                            <Checkbox
+                                checked={context?.memeSettings?.settings[0]?.isBold}
+                                onCheckedChange={() => handleBolded(context, index)}
+                                id='bold'
+                            />
                             <label htmlFor="bold"
                                 className="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70 select-none">
                                 <strong className='font-extrabold'>Bold</strong>
                             </label>
                         </div>
                         <div className='flex items-center space-x-2'>
-                            <Checkbox id='italic' />
+                            <Checkbox
+                                checked={context?.memeSettings?.settings[0]?.isItalic}
+                                onCheckedChange={() => handleItalicized(context, index)}
+                                id='italic'
+                            />
                             <label htmlFor="italic"
                                 className="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70 select-none ">
                                 <i>Italic</i>
@@ -116,7 +113,11 @@ export default function ExtendedSettings({ index }: {
                     {/* Text Decoration Ends */}
 
                     {/* Text Shadow-Outline Starts */}
-                    <RadioGroup className='w-full flex justify-between'>
+                    <RadioGroup
+                        defaultValue='outline'
+                        value={context?.memeSettings?.settings[0]?.textDecoration}
+                        onValueChange={(value: "outline" | "shadow" | "none") => handleTextDecoration(context, value, index)}
+                        className='w-full flex justify-between'>
                         <div className='flex items-center space-x-2'>
                             <RadioGroupItem value='shadow' id='shadow' />
                             <Label className='cursor-pointer' htmlFor='shadow'>Shadow</Label>
@@ -135,20 +136,39 @@ export default function ExtendedSettings({ index }: {
                         <Label className='col-span-2' htmlFor='outline-width'>
                             {"Outline Width (px)"}
                         </Label>
-                        <Input className='col-span-1' id='outline-width' type='number' />
+                        <Input
+                            value={context?.memeSettings?.settings[0]?.outlineWidth ?? 0}
+                            onChange={(e) => {
+                                const outlineWidth = Number.parseInt(e.target.value, 10)
+                                handleOutlineWidthChange(context, outlineWidth, index)
+                            }}
+                            className='col-span-1'
+                            id='outline-width'
+                            type='number' />
                     </div>
                     <div className="grid grid-cols-3 items-center gap-4">
                         <Label className='col-span-2' htmlFor='font-size'>
                             {"Font Size (px)"}
                         </Label>
-                        <Input className='col-span-1' id='font-size' type='number' />
+                        <Input
+                            value={context?.memeSettings?.settings[0]?.fontSize ?? 0}
+                            onChange={(e) => {
+                                const fontSize = Number.parseInt(e.target.value, 10)
+                                handleFontSizeChange(context, fontSize, index)
+                            }}
+                            className='col-span-1' id='font-size' type='number' />
                     </div>
                     {/* Text Alignment Starts */}
                     <div className="grid grid-cols-2 items-center gap-4">
                         <Label htmlFor='font-size'>
                             {"Text Align"}
                         </Label>
-                        <Select>
+                        <Select
+                            defaultValue={context?.memeSettings?.settings[0]?.textAlign ?? "left"}
+                            onValueChange={(value: "left" | "center" | "right") => {
+                                handleTextAlignChange(context, value, index)
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
@@ -169,7 +189,12 @@ export default function ExtendedSettings({ index }: {
                         <Label htmlFor='font-size'>
                             {"Vertical Align"}
                         </Label>
-                        <Select>
+                        <Select
+                            defaultValue={context?.memeSettings?.settings[0]?.verticalAlign ?? "top"}
+                            onValueChange={(value: "top" | "center" | "bottom") => {
+                                handleVerticalAlignChange(context, value, index)
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
@@ -189,16 +214,23 @@ export default function ExtendedSettings({ index }: {
                     <div className='grid grid-cols-7 items-center gap-2'>
                         <Label className='col-span-2'>Opacity</Label>
                         <Slider
+                            onValueChange={([value]) => {
+                                handleOpacityChange(context, value / 100, index)
+                            }}
                             id='opacity'
                             className='col-span-3'
-                            defaultValue={[100]}
+                            defaultValue={[context?.memeSettings?.settings[0]?.opacity ? context?.memeSettings?.settings[0]?.opacity * 100 : 100]}
                             max={100}
                             step={1} />
-                        <Input max={1} min={0} className='col-span-2' id='opacity' type='number' />
+                        <Input
+                            value={context?.memeSettings?.settings[index]?.opacity}
+                            onChange={(e) => {
+                                const opacity = Number.parseFloat(e.target.value)
+                                handleOpacityChange(context, opacity, index)
+                            }}
+                            max={1} min={0} className='col-span-2' id='opacity' type='number' />
                     </div>
                     {/* Opacity Ends */}
-
-                    {/* TODO: FONT FAMILY OPTIONS */}
                 </PopoverContent>
             </Popover>
         </>
