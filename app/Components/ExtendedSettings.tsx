@@ -78,33 +78,33 @@ export default function ExtendedSettings({ index }: {
                     <div className='w-full justify-between flex items-center space-x-2'>
                         <div className='flex items-center space-x-2'>
                             <Checkbox
-                                checked={context?.memeSettings?.settings[0]?.isAllCaps}
+                                checked={context?.memeSettings?.settings[index]?.isAllCaps}
                                 onCheckedChange={() => handleAllCapsed(context, index)}
-                                id='all-caps'
+                                id={`all-caps-${index}`}
                             />
-                            <label htmlFor="all-caps"
+                            <label htmlFor={`all-caps-${index}`}
                                 className="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70 select-none">
                                 ALL CAPS
                             </label>
                         </div>
                         <div className='flex items-center space-x-2'>
                             <Checkbox
-                                checked={context?.memeSettings?.settings[0]?.isBold}
+                                checked={context?.memeSettings?.settings[index]?.isBold}
                                 onCheckedChange={() => handleBolded(context, index)}
-                                id='bold'
+                                id={`bold-${index}`}
                             />
-                            <label htmlFor="bold"
+                            <label htmlFor={`bold-${index}`}
                                 className="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70 select-none">
                                 <strong className='font-extrabold'>Bold</strong>
                             </label>
                         </div>
                         <div className='flex items-center space-x-2'>
                             <Checkbox
-                                checked={context?.memeSettings?.settings[0]?.isItalic}
+                                checked={context?.memeSettings?.settings[index]?.isItalic}
                                 onCheckedChange={() => handleItalicized(context, index)}
-                                id='italic'
+                                id={`italic-${index}`}
                             />
-                            <label htmlFor="italic"
+                            <label htmlFor={`italic-${index}`}
                                 className="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70 select-none ">
                                 <i>Italic</i>
                             </label>
@@ -115,7 +115,7 @@ export default function ExtendedSettings({ index }: {
                     {/* Text Shadow-Outline Starts */}
                     <RadioGroup
                         defaultValue='outline'
-                        value={context?.memeSettings?.settings[0]?.textDecoration}
+                        value={context?.memeSettings?.settings[index]?.textDecoration}
                         onValueChange={(value: "outline" | "shadow" | "none") => handleTextDecoration(context, value, index)}
                         className='w-full flex justify-between'>
                         <div className='flex items-center space-x-2'>
@@ -137,7 +137,7 @@ export default function ExtendedSettings({ index }: {
                             {"Outline Width (px)"}
                         </Label>
                         <Input
-                            value={context?.memeSettings?.settings[0]?.outlineWidth ?? 0}
+                            value={context?.memeSettings?.settings[index]?.outlineWidth ?? 0}
                             onChange={(e) => {
                                 const outlineWidth = Number.parseInt(e.target.value, 10)
                                 handleOutlineWidthChange(context, outlineWidth, index)
@@ -151,7 +151,7 @@ export default function ExtendedSettings({ index }: {
                             {"Font Size (px)"}
                         </Label>
                         <Input
-                            value={context?.memeSettings?.settings[0]?.fontSize ?? 0}
+                            value={context?.memeSettings?.settings[index]?.fontSize ?? 0}
                             onChange={(e) => {
                                 const fontSize = Number.parseInt(e.target.value, 10)
                                 handleFontSizeChange(context, fontSize, index)
@@ -164,7 +164,7 @@ export default function ExtendedSettings({ index }: {
                             {"Text Align"}
                         </Label>
                         <Select
-                            defaultValue={context?.memeSettings?.settings[0]?.textAlign ?? "left"}
+                            defaultValue={context?.memeSettings?.settings[index]?.textAlign ?? "left"}
                             onValueChange={(value: "left" | "center" | "right") => {
                                 handleTextAlignChange(context, value, index)
                             }}
@@ -190,7 +190,7 @@ export default function ExtendedSettings({ index }: {
                             {"Vertical Align"}
                         </Label>
                         <Select
-                            defaultValue={context?.memeSettings?.settings[0]?.verticalAlign ?? "top"}
+                            defaultValue={context?.memeSettings?.settings[index]?.verticalAlign ?? "top"}
                             onValueChange={(value: "top" | "center" | "bottom") => {
                                 handleVerticalAlignChange(context, value, index)
                             }}
@@ -219,7 +219,7 @@ export default function ExtendedSettings({ index }: {
                             }}
                             id='opacity'
                             className='col-span-3'
-                            defaultValue={[context?.memeSettings?.settings[0]?.opacity ? context?.memeSettings?.settings[0]?.opacity * 100 : 100]}
+                            defaultValue={[context?.memeSettings?.settings[index]?.opacity ? context?.memeSettings?.settings[0]?.opacity * 100 : 100]}
                             max={100}
                             step={1} />
                         <Input

@@ -8,23 +8,25 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { TooltipContent, TooltipTrigger, Tooltip, TooltipProvider } from '@/components/ui/tooltip'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useMemo } from 'react'
 import ExtendedSettings from './ExtendedSettings'
 import { SettingsContext } from '@/context/SettingsProvider'
 import { handleTextColorChange, handleOutlineColorChange, handleTextChange } from '@/lib/stateHandlers'
+import ColorInput from './ColorInput'
 
 
-export default function MemeSettings({ otherMemes, setOtherMemes, selectedMeme, setSelectedMeme }:
+export default function MemeSettings({ memes, selectedMeme, setSelectedMeme }:
     {
-        otherMemes: Meme[],
-        setOtherMemes: React.Dispatch<React.SetStateAction<Meme[]>>,
+        memes: Meme[],
         selectedMeme: Meme | null,
         setSelectedMeme: React.Dispatch<React.SetStateAction<Meme | null>>,
     }) {
     const context = React.useContext(SettingsContext)
     const [openOtherMemes, setOpenOtherMemes] = React.useState(false)
     const [memeValue, setMemeValue] = React.useState("")
-    console.log(context?.memeSettings?.settings)
+    useMemo(() => {
+        getSettings()
+    }, [selectedMeme])
     function getSettings() {
         const memeSettings = []
         for (let i = 0; i < selectedMeme?.box_count!; i++) {
@@ -35,7 +37,8 @@ export default function MemeSettings({ otherMemes, setOtherMemes, selectedMeme, 
                         <Card>
                             <CardContent className='flex gap-1 sm:gap-4 items-center max-sm:p-1'>
                                 <Input placeholder={`Text #${i + 1}`}
-                                    value={context?.memeSettings?.settings[i]?.text ?? ""} onChange={(e) => {
+                                    value={context?.memeSettings?.settings[i]?.text ?? ""}
+                                    onChange={(e) => {
                                         const text = e.target.value
                                         handleTextChange(context, text, i)
                                     }} />
@@ -43,7 +46,12 @@ export default function MemeSettings({ otherMemes, setOtherMemes, selectedMeme, 
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger className='w-20 cursor-pointer' asChild>
-                                            <Input value={context?.memeSettings?.settings[i]?.color} onChange={(e) => handleTextColorChange(context, e.target.value, i)} type='color' />
+                                            <ColorInput
+                                                index={i}
+                                                handler={handleTextColorChange}
+                                                value={context?.memeSettings?.settings[i]?.color}
+                                                tooltipContent='Change text color'
+                                            />
                                         </TooltipTrigger>
                                         <TooltipContent className='p-2 bg-black/25 backdrop-blur-lg rounded-lg'>
                                             Change text color
@@ -51,10 +59,16 @@ export default function MemeSettings({ otherMemes, setOtherMemes, selectedMeme, 
                                     </Tooltip>
                                     <Tooltip>
                                         <TooltipTrigger className='w-20 cursor-pointer' asChild>
-                                            <Input
+                                            {/* <Input
                                                 value={context?.memeSettings?.settings[i]?.outlineColor}
-                                                onChange={(e) => handleOutlineColorChange(context, e.target.value, i)}
-                                                type='color' />
+                                                onChange={(e) => handleOutlineColorChange(context, e.currentTarget.value, i)}
+                                                type='color' /> */}
+                                            <ColorInput
+                                                index={i}
+                                                handler={handleOutlineColorChange}
+                                                value={context?.memeSettings?.settings[i]?.outlineColor}
+                                                tooltipContent='Change outline color'
+                                            />
                                         </TooltipTrigger>
                                         <TooltipContent className='p-2 bg-black/25 backdrop-blur-lg rounded-lg'>
                                             Change outline color
@@ -99,7 +113,7 @@ export default function MemeSettings({ otherMemes, setOtherMemes, selectedMeme, 
                             <CommandGroup>
                                 <ScrollArea className='max-h-[250px] md:max-h-[500px] overflow-y-scroll' >
                                     {
-                                        otherMemes.map((meme) => (
+                                        memes.map((meme) => (
                                             <CommandItem
                                                 className='flex gap-2'
                                                 key={meme?.id}

@@ -7,7 +7,6 @@ import { SettingsContext } from '@/context/SettingsProvider'
 
 export default function Home() {
   const [data, setData] = useState<MemeResponse>({ success: false, data: { memes: [] } })
-  const [otherMemes, setOtherMemes] = useState<Meme[]>([])
   const [isMemeLoading, setIsMemeLoading] = useState<boolean>(true)
   const [selectedMeme, setSelectedMeme] = useState<Meme | null>(null)
   const [memeSettings, setMemeSettings] = useState<MemeTextSettings | null>(null)
@@ -18,7 +17,6 @@ export default function Home() {
         if (!response.success) throw new Error('Something went wrong')
         setData(() => response)
         setSelectedMeme(() => response.data.memes[Math.floor(Math.random() * response.data.memes.length)])
-        setOtherMemes(() => response.data.memes.filter((meme) => meme.id !== selectedMeme?.id))
         setIsMemeLoading(() => false)
       } catch (error) {
         console.log(error)
@@ -31,7 +29,6 @@ export default function Home() {
     fetchMemes()
   }, [])
   useEffect(() => {
-    setOtherMemes(() => data.data.memes.filter((meme) => meme.id !== selectedMeme?.id))
     setMemeSettings(() => {
       const memeSetting: MemeTextSetting[] = []
       let memeSettings: MemeTextSettings = {
@@ -42,7 +39,7 @@ export default function Home() {
         memeSetting.push({
           color: '#ffffff',
           fontSize: 50,
-          text: '',
+          text: `Text #${i + 1}`,
           fontFamily: 'Impact',
           textAlign: 'left',
           verticalAlign: 'top',
@@ -67,8 +64,8 @@ export default function Home() {
   return (
     <SettingsContext.Provider value={{ memeSettings, setMemeSettings }}>
       <main className='flex flex-col md:flex-row w-11/12 md:w-3/4 mx-auto gap-4'>
-        <MainMeme randomMeme={selectedMeme} />
-        <MemeSettings otherMemes={otherMemes} setOtherMemes={setOtherMemes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
+        <MainMeme selectedMeme={selectedMeme} />
+        <MemeSettings memes={data.data.memes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
       </main>
     </SettingsContext.Provider>
   )
