@@ -10,16 +10,24 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
         settings: MemeTextSetting
     }) {
     const [isDraggable, setIsDraggable] = React.useState<boolean>(true)
+    const boxRef = React.useRef<HTMLDivElement>(null)
+    const [boxSize, setBoxSize] = React.useState<{ width: number, height: number }>({ width: 400, height: 80 })
     return (
         <motion.div
+            ref={boxRef}
             onDoubleClick={() => setIsDraggable((prev) => !prev)}
             onResize={() => setIsDraggable(false)}
             drag={isDraggable}
             dragConstraints={{
                 top: 0,
                 left: 0,
-                right: maxWidth - 400,
-                bottom: maxHeight - 80,
+                right: maxWidth - boxSize.width,
+                bottom: maxHeight - boxSize.height,
+            }}
+            onDragEnd={(event, info) => {
+                if (boxRef.current?.clientHeight !== boxSize.height || boxRef.current?.clientWidth !== boxSize.width) {
+                    setBoxSize({ width: boxRef.current?.clientWidth!, height: boxRef.current?.clientHeight! })
+                }
             }}
             dragElastic={1}
             dragMomentum={false}
