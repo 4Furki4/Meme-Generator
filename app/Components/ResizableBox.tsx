@@ -35,9 +35,10 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
                     fontSize: settings?.fontSize,
                     opacity: settings?.opacity
                 }
-            } className={twMerge(`absolute top-0 left-0 w-[400px] h-20 border border-black z-50 overflow-hidden`,
+            } className={twMerge(`absolute top-0 left-0 w-[400px] h-20 z-50 overflow-hidden hover:outline hover:outline-black hover:outline-2 roundedlg`,
                 className,
-                `text-${settings?.textAlign} text-[${settings?.color}]`
+                `text-${settings?.textAlign} text-[${settings?.color}]`,
+                `${isDraggable ? "cursor-move" : "cursor-pointer"}`
             )} >
             {settings?.text}
         </motion.div >
