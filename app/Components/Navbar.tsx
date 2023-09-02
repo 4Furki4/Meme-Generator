@@ -1,15 +1,31 @@
 "use client"
 import React from 'react'
-import { GithubIcon, Sun, Moon } from 'lucide-react'
+import { GithubIcon, Sun, Moon, Info } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useTheme } from "next-themes"
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 export default function Navbar() {
     const { theme, setTheme } = useTheme()
     return (
         <nav className='w-3/4 mx-auto flex justify-center items-center py-1 px-2 gap-2 shadow-sm shadow-border'>
+            <TooltipProvider>
+                <Tooltip delayDuration={100}>
+                    <TooltipTrigger>
+                        <Info
+                            size={40}
+                            className='hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2'
+                        />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>
+                            Please double click on text boxes switch between draggable and resizable mode.
+                        </p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
             <Link href={""} className="hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2">
                 <GithubIcon />
             </Link>
