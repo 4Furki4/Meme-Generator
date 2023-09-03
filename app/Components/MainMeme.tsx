@@ -20,12 +20,12 @@ export default function MainMeme({ selectedMeme }: { selectedMeme: Meme | null }
                 <div className="w-full h-full relative">
                     <Image
                         ref={imageRef}
-                        className="absolute top-0 left-0 rounded-lg"
+                        className={`relative`}
                         alt={selectedMeme?.name}
                         width={selectedMeme?.width}
                         height={selectedMeme?.height}
                         src={selectedMeme?.url} />
-                    <div className="absolute">
+                    <div className="absolute top-0 left-0">
                         {
                             boxCount.map((box) => (
                                 <ResizableBox
