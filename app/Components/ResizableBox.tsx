@@ -11,7 +11,10 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
     }) {
     const [isDraggable, setIsDraggable] = React.useState<boolean>(true)
     const boxRef = React.useRef<HTMLDivElement>(null)
-    const [boxSize, setBoxSize] = React.useState<{ width: number, height: number }>({ width: 400, height: 80 })
+    const [boxSize, setBoxSize] = React.useState<{ width: number, height: number }>({
+        width: boxRef.current?.clientWidth!,
+        height: boxRef.current?.clientHeight!
+    })
     return (
         <motion.div
             ref={boxRef}
@@ -46,7 +49,7 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
                     WebkitTextStroke: settings?.textDecoration === "outline" ? `${settings?.outlineWidth}px ${settings?.outlineColor}` : "none",
                     textAlign: settings?.textAlign,
                 }
-            } className={twMerge(`absolute top-0 left-0 w-[400px] h-20 z-50 overflow-hidden hover:outline hover:outline-black hover:outline-2 roundedlg`,
+            } className={twMerge(`absolute top-0 left-0 w-[200px] sm:w-[400px] h-20 z-50 overflow-hidden hover:outline hover:outline-black hover:outline-2 roundedlg`,
                 className,
                 `${isDraggable ? "cursor-move" : "cursor-pointer"}`
             )} >
