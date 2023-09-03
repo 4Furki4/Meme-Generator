@@ -6,28 +6,54 @@ import { useTheme } from "next-themes"
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 
 export default function Navbar() {
     const { theme, setTheme } = useTheme()
     return (
         <nav className='w-3/4 mx-auto flex justify-center items-center py-1 px-2 gap-2 shadow-sm shadow-border'>
-            <TooltipProvider>
-                <Tooltip
-                    defaultOpen={true}
-                    delayDuration={100}>
-                    <TooltipTrigger className='focus'>
+            <div className='sm:hidden'>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
                         <Info
                             size={40}
-                            className='hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2'
+                            className='hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2 cursor-pointer'
                         />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p>
-                            Please double click on the text boxes to switch between draggable and resizable mode.
-                        </p>
-                    </TooltipContent>
-                </Tooltip>
-            </TooltipProvider>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            How draggable and resizable works?
+                        </AlertDialogHeader>
+                        <AlertDialogDescription>
+                            You can double click on the text boxes to switch between draggable and resizable mode.
+                        </AlertDialogDescription>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>
+                                Close
+                            </AlertDialogCancel>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </div>
+            <div className='max-sm:hidden'>
+                <TooltipProvider>
+                    <Tooltip
+                        defaultOpen={true}
+                        delayDuration={100}>
+                        <TooltipTrigger asChild>
+                            <Info
+                                size={40}
+                                className='hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2'
+                            />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>
+                                Please double click on the text boxes to switch between draggable and resizable mode.
+                            </p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            </div>
             <Link href={"https://github.com/4Furki4/Meme-Generator"} target='_blank' className="hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2">
                 <GithubIcon />
             </Link>
