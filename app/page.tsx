@@ -63,7 +63,7 @@ export default function Home() {
   if (!data.success) return <h1>Something went wrong</h1>
   return (
     <SettingsContext.Provider value={{ memeSettings, setMemeSettings }}>
-      <main className='flex flex-col md:flex-row w-11/12 md:w-3/4 mx-auto gap-4'>
+      <main className='flex flex-col md:flex-row w-11/12 md:w-3/4 mx-auto gap-4 mt-12'>
         <MainMeme selectedMeme={selectedMeme} />
         <MemeSettings memes={data.data.memes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
       </main>

@@ -12,8 +12,10 @@ export default function Navbar() {
     return (
         <nav className='w-3/4 mx-auto flex justify-center items-center py-1 px-2 gap-2 shadow-sm shadow-border'>
             <TooltipProvider>
-                <Tooltip delayDuration={100}>
-                    <TooltipTrigger>
+                <Tooltip
+                    defaultOpen={true}
+                    delayDuration={100}>
+                    <TooltipTrigger className='focus'>
                         <Info
                             size={40}
                             className='hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2'
@@ -21,12 +23,12 @@ export default function Navbar() {
                     </TooltipTrigger>
                     <TooltipContent>
                         <p>
-                            Please double click on text boxes switch between draggable and resizable mode.
+                            Please double click on the text boxes to switch between draggable and resizable mode.
                         </p>
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
-            <Link href={""} className="hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2">
+            <Link href={"https://github.com/4Furki4/Meme-Generator"} target='_blank' className="hover:bg-gray-100 hover:dark:bg-gray-800 rounded-full p-2">
                 <GithubIcon />
             </Link>
             <DropdownMenu>
