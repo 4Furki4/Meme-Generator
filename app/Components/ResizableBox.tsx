@@ -41,11 +41,13 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
                     fontStyle: settings?.isItalic ? "italic" : "normal",
                     fontFamily: settings?.fontFamily,
                     fontSize: settings?.fontSize,
-                    opacity: settings?.opacity
+                    opacity: settings?.opacity,
+                    textShadow: settings?.textDecoration === "shadow" ? `0px 0px ${settings?.outlineWidth}px ${settings?.outlineColor}` : "none",
+                    WebkitTextStroke: settings?.textDecoration === "outline" ? `${settings?.outlineWidth}px ${settings?.outlineColor}` : "none",
+                    textAlign: settings?.textAlign,
                 }
             } className={twMerge(`absolute top-0 left-0 w-[400px] h-20 z-50 overflow-hidden hover:outline hover:outline-black hover:outline-2 roundedlg`,
                 className,
-                `text-${settings?.textAlign} text-[${settings?.color}]`,
                 `${isDraggable ? "cursor-move" : "cursor-pointer"}`
             )} >
             {settings?.text}
