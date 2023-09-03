@@ -38,7 +38,7 @@ export default function Home() {
       for (let i = 0; i < selectedMeme?.box_count!; i++) {
         memeSetting.push({
           color: '#ffffff',
-          fontSize: 50,
+          fontSize: 40,
           text: `Text #${i + 1}`,
           fontFamily: 'Impact',
           textAlign: 'left',
@@ -47,7 +47,7 @@ export default function Home() {
           height: 500,
           textDecoration: 'outline',
           outlineColor: '#000000',
-          outlineWidth: 50,
+          outlineWidth: 1,
           isAllCaps: true,
           isBold: false,
           isItalic: false,

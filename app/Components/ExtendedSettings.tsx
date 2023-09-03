@@ -137,6 +137,8 @@ export default function ExtendedSettings({ index }: {
                             {"Outline Width (px)"}
                         </Label>
                         <Input
+                            min={0}
+                            max={5}
                             value={context?.memeSettings?.settings[index]?.outlineWidth ?? 0}
                             onChange={(e) => {
                                 const outlineWidth = Number.parseInt(e.target.value, 10)
