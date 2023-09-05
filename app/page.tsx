@@ -4,8 +4,7 @@ import MainMeme from './Components/MainMeme'
 import getMemes from './methods/getMemes'
 import MemeSettings from './Components/MemeSettings'
 import { SettingsContext } from '@/context/SettingsProvider'
-import html2canvas from "html2canvas"
-
+import { toPng } from 'html-to-image'
 export default function Home() {
   const [data, setData] = useState<MemeResponse>({ success: false, data: { memes: [] } })
   const [isMemeLoading, setIsMemeLoading] = useState<boolean>(true)
@@ -13,11 +12,10 @@ export default function Home() {
   const [memeSettings, setMemeSettings] = useState<MemeTextSettings | null>(null)
   const memeRef = useRef<HTMLDivElement>(null)
   function handleGenerateMeme() {
-    html2canvas(memeRef?.current!).then((canvas) => {
-      const data = canvas.toDataURL("image/png")
+    toPng(memeRef?.current!).then((dataUrl) => {
       const link = document.createElement("a")
       link.download = "meme.png"
-      link.href = data
+      link.href = dataUrl
       link.click()
     })
   }
