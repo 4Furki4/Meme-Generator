@@ -4,21 +4,12 @@ import MainMeme from './Components/MainMeme'
 import getMemes from './methods/getMemes'
 import MemeSettings from './Components/MemeSettings'
 import { SettingsContext } from '@/context/SettingsProvider'
-import { toPng } from 'html-to-image'
 export default function Home() {
   const [data, setData] = useState<MemeResponse>({ success: false, data: { memes: [] } })
   const [isMemeLoading, setIsMemeLoading] = useState<boolean>(true)
   const [selectedMeme, setSelectedMeme] = useState<Meme | null>(null)
   const [memeSettings, setMemeSettings] = useState<MemeTextSettings | null>(null)
   const memeRef = useRef<HTMLDivElement>(null)
-  function handleGenerateMeme() {
-    toPng(memeRef?.current!).then((dataUrl) => {
-      const link = document.createElement("a")
-      link.download = "meme.png"
-      link.href = dataUrl
-      link.click()
-    })
-  }
   useEffect(() => {
     const fetchMemes = async () => {
       try {
@@ -74,7 +65,7 @@ export default function Home() {
     <SettingsContext.Provider value={{ memeSettings, setMemeSettings }}>
       <main className='flex flex-col md:flex-row w-11/12 md:w-3/4 mx-auto gap-4 mt-12'>
         <MainMeme memeRef={memeRef} selectedMeme={selectedMeme} />
-        <MemeSettings handleGenerateMeme={handleGenerateMeme} memes={data.data.memes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
+        <MemeSettings memeRef={memeRef} memes={data.data.memes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
       </main>
     </SettingsContext.Provider>
   )

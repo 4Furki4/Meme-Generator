@@ -1,3 +1,4 @@
+import { toPng } from "html-to-image"
 import { Dispatch, SetStateAction } from "react"
 
 
@@ -226,5 +227,13 @@ export function handleOpacityChange(context: SettingsContext, opacity: number, i
                 return setting
             })
         }
+    })
+}
+export function handleGenerateMeme(memeRef: React.RefObject<HTMLDivElement>) {
+    toPng(memeRef?.current!).then((dataUrl) => {
+        const link = document.createElement("a")
+        link.download = "meme.png"
+        link.href = dataUrl
+        link.click()
     })
 }

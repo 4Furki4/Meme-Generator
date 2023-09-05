@@ -6,21 +6,20 @@ import { cn } from '@/lib/utils'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { TooltipContent, TooltipTrigger, Tooltip, TooltipProvider } from '@/components/ui/tooltip'
-import { Check, ChevronsUpDown } from 'lucide-react'
+import { Check, ChevronsUpDown, Download } from 'lucide-react'
 import Image from 'next/image'
 import React, { useMemo } from 'react'
 import ExtendedSettings from './ExtendedSettings'
 import { SettingsContext } from '@/context/SettingsProvider'
-import { handleTextColorChange, handleOutlineColorChange, handleTextChange } from '@/lib/stateHandlers'
+import { handleTextColorChange, handleOutlineColorChange, handleTextChange, handleGenerateMeme } from '@/lib/stateHandlers'
 import ColorInput from './ColorInput'
 
-
-export default function MemeSettings({ memes, selectedMeme, setSelectedMeme, handleGenerateMeme }:
+export default function MemeSettings({ memes, selectedMeme, setSelectedMeme, memeRef }:
     {
         memes: Meme[],
         selectedMeme: Meme | null,
         setSelectedMeme: React.Dispatch<React.SetStateAction<Meme | null>>,
-        handleGenerateMeme: () => void
+        memeRef: React.RefObject<HTMLDivElement>
     }) {
     const context = React.useContext(SettingsContext)
     const [openOtherMemes, setOpenOtherMemes] = React.useState(false)
@@ -158,10 +157,11 @@ export default function MemeSettings({ memes, selectedMeme, setSelectedMeme, han
             ))
             }
             <CardFooter>
-                <Button variant={"ghost"} className='w-full'
-                    onClick={() => handleGenerateMeme()}
-                >
-                    Download Meme
+                <Button
+                    variant={"ghost"}
+                    className='w-full'
+                    onClick={() => handleGenerateMeme(memeRef)}>
+                    Download Meme <Download className='ml-2 h-4 w-4' />
                 </Button>
             </CardFooter>
         </Card>
