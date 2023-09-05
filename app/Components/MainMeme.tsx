@@ -3,9 +3,9 @@ import Image from "next/image"
 import ResizableBox from "./ResizableBox"
 import { useContext, useRef } from "react"
 import { SettingsContext } from "@/context/SettingsProvider"
+import { Button } from "@/components/ui/button"
 
-
-export default function MainMeme({ selectedMeme }: { selectedMeme: Meme | null }) {
+export default function MainMeme({ selectedMeme, memeRef }: { selectedMeme: Meme | null, memeRef: React.RefObject<HTMLDivElement> }) {
     const boxCount = []
     for (let i = 0; i < selectedMeme?.box_count!; i++) {
         boxCount.push(i)
@@ -15,9 +15,9 @@ export default function MainMeme({ selectedMeme }: { selectedMeme: Meme | null }
     const imageWidth = imageRef.current?.width
     const imageHeight = imageRef.current?.height
     return (
-        <div className="basis-full rounded-lg">
+        <div className="basis-full rounded-lg flex flex-col">
             {selectedMeme && (
-                <div className="w-full h-full relative">
+                <div ref={memeRef} className="relative max-w-max">
                     <Image
                         ref={imageRef}
                         className={`relative`}
