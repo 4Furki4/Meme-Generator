@@ -49,7 +49,8 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
                     WebkitTextStroke: settings?.textDecoration === "outline" ? `${settings?.outlineWidth}px ${settings?.outlineColor}` : "none",
                     textAlign: settings?.textAlign,
                 }
-            } className={twMerge(`absolute top-0 left-0 w-[200px] sm:w-[400px] h-20 z-50 overflow-hidden hover:outline hover:outline-black hover:outline-2 roundedlg`,
+            } className={twMerge(`absolute top-0 left-0 w-[200px] sm:w-[400px] h-20 z-50 overflow-hidden 
+                hover:outline hover:outline-black hover:outline-2 roundedlg select-none`,
                 className,
                 `${isDraggable ? "cursor-move" : "cursor-pointer"}`
             )} >
