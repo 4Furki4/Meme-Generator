@@ -1,15 +1,26 @@
 "use client"
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import MainMeme from './Components/MainMeme'
 import getMemes from './methods/getMemes'
 import MemeSettings from './Components/MemeSettings'
 import { SettingsContext } from '@/context/SettingsProvider'
+import html2canvas from "html2canvas"
 
 export default function Home() {
   const [data, setData] = useState<MemeResponse>({ success: false, data: { memes: [] } })
   const [isMemeLoading, setIsMemeLoading] = useState<boolean>(true)
   const [selectedMeme, setSelectedMeme] = useState<Meme | null>(null)
   const [memeSettings, setMemeSettings] = useState<MemeTextSettings | null>(null)
+  const memeRef = useRef<HTMLDivElement>(null)
+  function handleGenerateMeme() {
+    html2canvas(memeRef?.current!).then((canvas) => {
+      const data = canvas.toDataURL("image/png")
+      const link = document.createElement("a")
+      link.download = "meme.png"
+      link.href = data
+      link.click()
+    })
+  }
   useEffect(() => {
     const fetchMemes = async () => {
       try {
@@ -64,8 +75,8 @@ export default function Home() {
   return (
     <SettingsContext.Provider value={{ memeSettings, setMemeSettings }}>
       <main className='flex flex-col md:flex-row w-11/12 md:w-3/4 mx-auto gap-4 mt-12'>
-        <MainMeme selectedMeme={selectedMeme} />
-        <MemeSettings memes={data.data.memes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
+        <MainMeme memeRef={memeRef} selectedMeme={selectedMeme} />
+        <MemeSettings handleGenerateMeme={handleGenerateMeme} memes={data.data.memes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
       </main>
     </SettingsContext.Provider>
   )

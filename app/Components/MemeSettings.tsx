@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
@@ -15,11 +15,12 @@ import { handleTextColorChange, handleOutlineColorChange, handleTextChange } fro
 import ColorInput from './ColorInput'
 
 
-export default function MemeSettings({ memes, selectedMeme, setSelectedMeme }:
+export default function MemeSettings({ memes, selectedMeme, setSelectedMeme, handleGenerateMeme }:
     {
         memes: Meme[],
         selectedMeme: Meme | null,
         setSelectedMeme: React.Dispatch<React.SetStateAction<Meme | null>>,
+        handleGenerateMeme: () => void
     }) {
     const context = React.useContext(SettingsContext)
     const [openOtherMemes, setOpenOtherMemes] = React.useState(false)
@@ -156,6 +157,13 @@ export default function MemeSettings({ memes, selectedMeme, setSelectedMeme }:
                 </React.Fragment>
             ))
             }
+            <CardFooter>
+                <Button variant={"ghost"} className='w-full'
+                    onClick={() => handleGenerateMeme()}
+                >
+                    Download Meme
+                </Button>
+            </CardFooter>
         </Card>
     )
 }
