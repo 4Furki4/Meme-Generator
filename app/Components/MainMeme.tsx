@@ -15,7 +15,7 @@ export default function MainMeme({ selectedMeme, memeRef }: { selectedMeme: Meme
     const imageWidth = imageRef.current?.width
     const imageHeight = imageRef.current?.height
     return (
-        <div className="basis-full rounded-lg flex flex-col">
+        <div className="basis-full rounded-lg flex flex-col items-center">
             {selectedMeme && (
                 <div ref={memeRef} className="relative max-w-max">
                     <Image

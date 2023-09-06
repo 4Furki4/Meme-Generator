@@ -32,55 +32,51 @@ export default function MemeSettings({ memes, selectedMeme, setSelectedMeme, mem
         for (let i = 0; i < selectedMeme?.box_count!; i++) {
             memeSettings.push(
                 <>
-                    <CardContent>
+                    <CardContent className='flex gap-1 sm:gap-4 items-center max-sm:p-1 w-full p-6'>
                         {/* Text Settings Start */}
-                        <Card>
-                            <CardContent className='flex gap-1 sm:gap-4 items-center max-sm:p-1'>
-                                <Input placeholder={`Text #${i + 1}`}
-                                    value={context?.memeSettings?.settings[i]?.text ?? ""}
-                                    onChange={(e) => {
-                                        const text = e.target.value
-                                        handleTextChange(context, text, i)
-                                    }} />
-                                {/* Text and Outline colors with info that's being displayed when hovered start */}
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger className='w-20 cursor-pointer' asChild>
-                                            <ColorInput
-                                                index={i}
-                                                handler={handleTextColorChange}
-                                                value={context?.memeSettings?.settings[i]?.color}
-                                                tooltipContent='Change text color'
-                                            />
-                                        </TooltipTrigger>
-                                        <TooltipContent className='p-2 bg-black/25 backdrop-blur-lg rounded-lg'>
-                                            Change text color
-                                        </TooltipContent>
-                                    </Tooltip>
-                                    <Tooltip>
-                                        <TooltipTrigger className='w-20 cursor-pointer' asChild>
-                                            {/* <Input
+                        <Input placeholder={`Text #${i + 1}`}
+                            value={context?.memeSettings?.settings[i]?.text ?? ""}
+                            onChange={(e) => {
+                                const text = e.target.value
+                                handleTextChange(context, text, i)
+                            }} />
+                        {/* Text and Outline colors with info that's being displayed when hovered start */}
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger className='w-20 cursor-pointer' asChild>
+                                    <ColorInput
+                                        index={i}
+                                        handler={handleTextColorChange}
+                                        value={context?.memeSettings?.settings[i]?.color}
+                                        tooltipContent='Change text color'
+                                    />
+                                </TooltipTrigger>
+                                <TooltipContent className='p-2 bg-black/25 backdrop-blur-lg rounded-lg'>
+                                    Change text color
+                                </TooltipContent>
+                            </Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger className='w-20 cursor-pointer' asChild>
+                                    {/* <Input
                                                 value={context?.memeSettings?.settings[i]?.outlineColor}
                                                 onChange={(e) => handleOutlineColorChange(context, e.currentTarget.value, i)}
                                                 type='color' /> */}
-                                            <ColorInput
-                                                index={i}
-                                                handler={handleOutlineColorChange}
-                                                value={context?.memeSettings?.settings[i]?.outlineColor}
-                                                tooltipContent='Change outline color'
-                                            />
-                                        </TooltipTrigger>
-                                        <TooltipContent className='p-2 bg-black/25 backdrop-blur-lg rounded-lg'>
-                                            Change outline color
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                                {/* Text and Outline colors with info that's being displayed when hovered start */}
-                                {/* Settings button start */}
-                                <ExtendedSettings index={i} />
-                                {/* Settings button end */}
-                            </CardContent>
-                        </Card>
+                                    <ColorInput
+                                        index={i}
+                                        handler={handleOutlineColorChange}
+                                        value={context?.memeSettings?.settings[i]?.outlineColor}
+                                        tooltipContent='Change outline color'
+                                    />
+                                </TooltipTrigger>
+                                <TooltipContent className='p-2 bg-black/25 backdrop-blur-lg rounded-lg'>
+                                    Change outline color
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                        {/* Text and Outline colors with info that's being displayed when hovered start */}
+                        {/* Settings button start */}
+                        <ExtendedSettings index={i} />
+                        {/* Settings button end */}
                         {/* Text Settings End */}
                     </CardContent>
                 </>
