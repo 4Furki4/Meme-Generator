@@ -1,5 +1,5 @@
 import localFont from "next/font/local"
-import { Inter } from 'next/font/google'
+import { Inter, Space_Mono } from 'next/font/google'
 export const getFontFamilies = () => {
     return [
         "Inter",
@@ -7,6 +7,7 @@ export const getFontFamilies = () => {
         "Arial",
         "Open Sans",
         "Roboto",
+        "Space Mono",
         "Helvetica",
         "Times New Roman",
         "Courier Prime",
@@ -120,6 +121,10 @@ export const roboto = localFont({
 export const inter = Inter({
     subsets: ["latin"]
 })
+export const spaceMono = Space_Mono({
+    subsets: ["latin"],
+    weight: ["400", "700"]
+})
 export const timesNewRoman = localFont({
     src: "../fonts/times.woff2"
 })
@@ -176,6 +181,8 @@ export function getFontFamilyClass(fontFamily: string) {
             return arialBlack.className
         case "roboto":
             return roboto.className
+        case "space mono":
+            return spaceMono.className
         default:
             return arial.className
     }
