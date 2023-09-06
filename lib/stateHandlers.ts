@@ -56,7 +56,9 @@ export function handleChangeFontFamily(
     currentFont: string, selectedFontFamily: string,
     context: SettingsContext, index: number,
     setOpenFontFamily: Dispatch<SetStateAction<boolean>>, setSelectedFontFamily: Dispatch<SetStateAction<string>>) {
-    setSelectedFontFamily(() => currentFont === selectedFontFamily ? "" : currentFont)
+    setSelectedFontFamily(() => currentFont === selectedFontFamily ? "arial" : currentFont)
+    console.log("currentFont", currentFont)
+    console.log("selectedFontFamily", selectedFontFamily)
     context?.setMemeSettings((prev: MemeTextSettings) => {
         return {
             ...prev,
@@ -64,7 +66,7 @@ export function handleChangeFontFamily(
                 if (i === index) {
                     return {
                         ...setting,
-                        fontFamily: currentFont
+                        fontFamily: currentFont === selectedFontFamily ? "arial" : currentFont
                     }
                 }
                 return setting

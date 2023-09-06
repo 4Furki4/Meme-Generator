@@ -40,7 +40,7 @@ export default function Home() {
           color: '#ffffff',
           fontSize: 40,
           text: `Text #${i + 1}`,
-          fontFamily: 'Impact',
+          fontFamily: 'arial',
           textAlign: 'left',
           verticalAlign: 'top',
           width: 500,
@@ -63,7 +63,7 @@ export default function Home() {
   if (!data.success) return <h1>Something went wrong</h1>
   return (
     <SettingsContext.Provider value={{ memeSettings, setMemeSettings }}>
-      <main className='flex flex-col lg:flex-row w-11/12 lg:w-3/4 mx-auto gap-4 mt-12'>
+      <main className='flex flex-col lg:flex-row w-11/12 lg:w-3/4 mx-auto gap-4 my-12'>
         <MainMeme memeRef={memeRef} selectedMeme={selectedMeme} />
         <MemeSettings memeRef={memeRef} memes={data.data.memes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
       </main>

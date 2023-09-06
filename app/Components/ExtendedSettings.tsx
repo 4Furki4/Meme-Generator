@@ -50,10 +50,10 @@ export default function ExtendedSettings({ index }: {
                                 <CommandEmpty>No Fonts Found</CommandEmpty>
                                 <CommandGroup className='h-40 overflow-y-scroll'>
                                     {
-                                        getFontFamilies().map((font, index) => (
+                                        getFontFamilies().map((font, i) => (
                                             <CommandItem
                                                 className='cursor-pointer'
-                                                key={index}
+                                                key={i}
                                                 onSelect={(currentFamily) => handleChangeFontFamily(currentFamily, selectedFontFamily, context, index, setOpenFontFamily, setSelectedFontFamily)}
                                             >
                                                 <Check

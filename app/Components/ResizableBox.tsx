@@ -2,7 +2,13 @@
 import React from 'react'
 import { twMerge } from 'tailwind-merge'
 import { motion } from 'framer-motion'
+import { getFontFamilyClass, timesNewRoman } from '@/lib/fontFamily'
+
+
 type ResizableBoxProps = React.AllHTMLAttributes<HTMLDivElement>
+
+
+
 export default function ResizableBox({ className, maxWidth, maxHeight, settings }:
     ResizableBoxProps & {
         maxWidth: number,
@@ -15,6 +21,10 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
         width: boxRef.current?.clientWidth!,
         height: boxRef.current?.clientHeight!
     })
+    function getFont(font: string) {
+
+    }
+    console.log(settings?.fontFamily, settings?.text)
     return (
         <motion.div
             ref={boxRef}
@@ -42,7 +52,6 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
                     textTransform: settings?.isAllCaps ? "uppercase" : "initial",
                     fontWeight: settings?.isBold ? "bold" : "normal",
                     fontStyle: settings?.isItalic ? "italic" : "normal",
-                    fontFamily: settings?.fontFamily,
                     fontSize: settings?.fontSize,
                     opacity: settings?.opacity,
                     textShadow: settings?.textDecoration === "shadow" ? `0px 0px ${settings?.outlineWidth}px ${settings?.outlineColor}` : "none",
@@ -52,7 +61,8 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
             } className={twMerge(`absolute top-0 left-0 w-[200px] sm:w-[400px] h-20 z-50 overflow-hidden 
                 hover:outline hover:outline-black hover:outline-2 roundedlg select-none`,
                 className,
-                `${isDraggable ? "cursor-move" : "cursor-pointer"}`
+                `${isDraggable ? "cursor-move" : "cursor-pointer"}`,
+                `${getFontFamilyClass(settings?.fontFamily ?? "")}`
             )} >
             {settings?.text}
         </motion.div >
