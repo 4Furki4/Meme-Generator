@@ -27,18 +27,30 @@ export const timesNewRoman = localFont({
     src: "../fonts/times.woff2"
 })
 export const arial = localFont({
+    src: "../fonts/arial.woff2",
+})
+export const courierPrime = localFont({
     src: [
         {
-            path: "../fonts/ARIAL.woff",
-            style: "normal",
+            path: "../fonts/CourierPrime-Regular.ttf",
+            weight: "400",
+            style: "normal"
         },
         {
-            path: "../fonts/ARIALBD.woff",
+            path: "../fonts/CourierPrime-Bold.ttf",
+            weight: "700",
+            style: "bold"
         },
         {
-            path: "../fonts/ArialCEBoldItalic.woff",
-            style: "italic",
+            path: "../fonts/CourierPrime-Italic.ttf",
+            weight: "400",
+            style: "italic"
         },
+        {
+            path: "../fonts/CourierPrime-BoldItalic.ttf",
+            weight: "700",
+            style: "italic"
+        }
     ]
 })
 
@@ -51,6 +63,8 @@ export function getFontFamilyClass(fontFamily: string) {
             return timesNewRoman.className
         case "inter":
             return inter.className
+        case "courier":
+            return courierPrime.className
         default:
             return arial.className
     }
