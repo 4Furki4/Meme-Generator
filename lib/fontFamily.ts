@@ -6,6 +6,7 @@ export const getFontFamilies = () => {
         "Impact",
         "Arial",
         "Open Sans",
+        "Roboto",
         "Helvetica",
         "Times New Roman",
         "Courier Prime",
@@ -17,43 +18,6 @@ export const getFontFamilies = () => {
         "Arial Black"
     ]
 }
-export const inter = Inter({
-    subsets: ["latin"]
-})
-export const timesNewRoman = localFont({
-    src: "../fonts/times.woff2"
-})
-export const arial = localFont({
-    src: "../fonts/arial.woff2",
-})
-
-export const courierPrime = localFont({
-    src: [
-        {
-            path: "../fonts/CourierPrime/CourierPrime-Regular.woff2",
-            weight: "400",
-            style: "normal"
-        },
-        {
-            path: "../fonts/CourierPrime/CourierPrime-Bold.woff2",
-            weight: "700",
-            style: "bold"
-        },
-        {
-            path: "../fonts/CourierPrime/CourierPrime-Italic.woff2",
-            weight: "400",
-            style: "italic"
-        },
-        {
-            path: "../fonts/CourierPrime/CourierPrime-BoldItalic.woff2",
-            weight: "700",
-        }
-    ]
-})
-
-export const impact = localFont({
-    src: "../fonts/impact.woff2"
-})
 export const openSans = localFont({
     src: [
         {
@@ -103,6 +67,69 @@ export const helvetica = localFont({
         }
     ]
 })
+export const courierPrime = localFont({
+    src: [
+        {
+            path: "../fonts/CourierPrime/CourierPrime-Regular.woff2",
+            weight: "400",
+            style: "normal"
+        },
+        {
+            path: "../fonts/CourierPrime/CourierPrime-Bold.woff2",
+            weight: "700",
+            style: "bold"
+        },
+        {
+            path: "../fonts/CourierPrime/CourierPrime-Italic.woff2",
+            weight: "400",
+            style: "italic"
+        },
+        {
+            path: "../fonts/CourierPrime/CourierPrime-BoldItalic.woff2",
+            weight: "700",
+        }
+    ]
+})
+
+export const roboto = localFont({
+    src: [
+        {
+            path: "../fonts/Roboto/Roboto-Regular.woff2",
+            weight: "400",
+            style: "normal"
+        },
+        {
+            path: "../fonts/Roboto/Roboto-Bold.woff2",
+            weight: "700",
+            style: "bold"
+        },
+        {
+            path: "../fonts/Roboto/Roboto-Italic.woff2",
+            weight: "400",
+            style: "italic"
+        },
+        {
+            path: "../fonts/Roboto/Roboto-BoldItalic.woff2",
+            weight: "700",
+            style: "italic"
+        }
+    ]
+})
+
+
+export const inter = Inter({
+    subsets: ["latin"]
+})
+export const timesNewRoman = localFont({
+    src: "../fonts/times.woff2"
+})
+export const arial = localFont({
+    src: "../fonts/arial.woff2",
+})
+
+export const impact = localFont({
+    src: "../fonts/impact.woff2"
+})
 
 export const georgia = localFont({
     src: "../fonts/georgia.woff2",
@@ -122,6 +149,7 @@ export const bookman = localFont({
 export const arialBlack = localFont({
     src: "../fonts/arial-black.woff2",
 })
+
 export function getFontFamilyClass(fontFamily: string) {
     switch (fontFamily) {
         case "times new roman":
@@ -146,6 +174,8 @@ export function getFontFamilyClass(fontFamily: string) {
             return bookman.className
         case "arial black":
             return arialBlack.className
+        case "roboto":
+            return roboto.className
         default:
             return arial.className
     }
