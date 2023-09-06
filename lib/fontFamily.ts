@@ -30,22 +30,22 @@ export const arial = localFont({
 export const courierPrime = localFont({
     src: [
         {
-            path: "../fonts/CourierPrime/CourierPrime-Regular.ttf",
+            path: "../fonts/CourierPrime/CourierPrime-Regular.woff2",
             weight: "400",
             style: "normal"
         },
         {
-            path: "../fonts/CourierPrime/CourierPrime-Bold.ttf",
+            path: "../fonts/CourierPrime/CourierPrime-Bold.woff2",
             weight: "700",
             style: "bold"
         },
         {
-            path: "../fonts/CourierPrime/CourierPrime-Italic.ttf",
+            path: "../fonts/CourierPrime/CourierPrime-Italic.woff2",
             weight: "400",
             style: "italic"
         },
         {
-            path: "../fonts/CourierPrime/CourierPrime-BoldItalic.ttf",
+            path: "../fonts/CourierPrime/CourierPrime-BoldItalic.woff2",
             weight: "700",
         }
     ]
