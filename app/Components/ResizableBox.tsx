@@ -15,15 +15,14 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
         maxHeight: number,
         settings: MemeTextSetting
     }) {
+    console.log("vertical alignment" ,settings?.verticalAlign)
+    console.log("text alignment" ,settings?.textAlign)
     const [isDraggable, setIsDraggable] = React.useState<boolean>(true)
     const boxRef = React.useRef<HTMLDivElement>(null)
     const [boxSize, setBoxSize] = React.useState<{ width: number, height: number }>({
         width: boxRef.current?.clientWidth!,
         height: boxRef.current?.clientHeight!
     })
-    function getFont(font: string) {
-
-    }
     console.log(settings?.fontFamily, settings?.text)
     return (
         <motion.div
@@ -55,16 +54,17 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
                     fontSize: settings?.fontSize,
                     opacity: settings?.opacity,
                     textShadow: settings?.textDecoration === "shadow" ? `0px 0px ${settings?.outlineWidth}px ${settings?.outlineColor}` : "none",
-                    WebkitTextStroke: settings?.textDecoration === "outline" ? `${settings?.outlineWidth}px ${settings?.outlineColor}` : "none",
-                    textAlign: settings?.textAlign,
+                    WebkitTextStroke: settings?.textDecoration === "outline" ? `${settings?.outlineWidth}px ${settings?.outlineColor}` : "none"
                 }
-            } className={twMerge(`absolute top-0 left-0 w-[200px] sm:w-[400px] h-20 z-50 overflow-hidden 
-                hover:outline hover:outline-black hover:outline-2 roundedlg select-none`,
+            } className={twMerge(`absolute top-0 left-0 w-[200px] sm:w-[400px] h-20 z-50 overflow-hidden
+                hover:outline hover:outline-black hover:outline-2 roundedlg select-none flex`,
                 className,
-                `${isDraggable ? "cursor-move" : "cursor-pointer"}`,
-                `${getFontFamilyClass(settings?.fontFamily ?? "")}`
+                `${isDraggable ? "active:cursor-grabbing cursor-grab" : "cursor-default"}`,
+                `${getFontFamilyClass(settings?.fontFamily ?? "")}`,
+                `${settings?.verticalAlign === "top" ? "items-start" : settings?.verticalAlign === "bottom" ? "items-end" : "items-center"}`,
+                `${settings?.textAlign === "left" ? "justify-start" : settings?.textAlign === "right" ? "justify-end" : "justify-center"}`
             )} >
-            {settings?.text}
+            <span>{settings?.text}</span>
         </motion.div >
     )
 }
