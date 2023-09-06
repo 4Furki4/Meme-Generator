@@ -4,6 +4,8 @@ import MainMeme from './Components/MainMeme'
 import getMemes from './methods/getMemes'
 import MemeSettings from './Components/MemeSettings'
 import { SettingsContext } from '@/context/SettingsProvider'
+import { Spicy_Rice } from 'next/font/google'
+import Spinner from './Components/Spinner'
 export default function Home() {
   const [data, setData] = useState<MemeResponse>({ success: false, data: { memes: [] } })
   const [isMemeLoading, setIsMemeLoading] = useState<boolean>(true)
@@ -59,7 +61,7 @@ export default function Home() {
       return memeSettings
     })
   }, [selectedMeme])
-  if (isMemeLoading) return <h1>Loading...</h1>
+  if (isMemeLoading) return <Spinner className='absolute inset-0 m-auto' />
   if (!data.success) return <h1>Something went wrong</h1>
   return (
     <SettingsContext.Provider value={{ memeSettings, setMemeSettings }}>
