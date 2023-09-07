@@ -15,15 +15,12 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
         maxHeight: number,
         settings: MemeTextSetting
     }) {
-    console.log("vertical alignment" ,settings?.verticalAlign)
-    console.log("text alignment" ,settings?.textAlign)
     const [isDraggable, setIsDraggable] = React.useState<boolean>(true)
     const boxRef = React.useRef<HTMLDivElement>(null)
     const [boxSize, setBoxSize] = React.useState<{ width: number, height: number }>({
         width: boxRef.current?.clientWidth!,
         height: boxRef.current?.clientHeight!
     })
-    console.log(settings?.fontFamily, settings?.text)
     return (
         <motion.div
             ref={boxRef}

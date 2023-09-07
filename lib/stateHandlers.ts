@@ -231,7 +231,15 @@ export function handleOpacityChange(context: SettingsContext, opacity: number, i
         }
     })
 }
-export function handleGenerateMeme(memeRef: React.RefObject<HTMLDivElement>) {
+export function handleGenerateMeme(memeRef: React.ForwardedRef<HTMLDivElement|undefined>) {
+    // toPng(memeRef?.current!).then((dataUrl) => {
+    //     const link = document.createElement("a")
+    //     link.download = "meme.png"
+    //     link.href = dataUrl
+    //     link.click()
+    // })
+    console.log(memeRef)
+    if(typeof memeRef === "function") return
     toPng(memeRef?.current!).then((dataUrl) => {
         const link = document.createElement("a")
         link.download = "meme.png"
