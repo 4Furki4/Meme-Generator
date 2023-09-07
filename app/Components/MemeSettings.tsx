@@ -8,19 +8,17 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { TooltipContent, TooltipTrigger, Tooltip, TooltipProvider } from '@/components/ui/tooltip'
 import { Check, ChevronsUpDown, Download } from 'lucide-react'
 import Image from 'next/image'
-import React, { useMemo } from 'react'
+import React, { ForwardedRef, forwardRef, useMemo } from 'react'
 import ExtendedSettings from './ExtendedSettings'
 import { SettingsContext } from '@/context/SettingsProvider'
 import { handleTextColorChange, handleOutlineColorChange, handleTextChange, handleGenerateMeme } from '@/lib/stateHandlers'
 import ColorInput from './ColorInput'
 
-export default function MemeSettings({ memes, selectedMeme, setSelectedMeme, memeRef }:
-    {
-        memes: Meme[],
-        selectedMeme: Meme | null,
-        setSelectedMeme: React.Dispatch<React.SetStateAction<Meme | null>>,
-        memeRef: React.RefObject<HTMLDivElement>
-    }) {
+const MemeSettings = forwardRef(({memes, selectedMeme, setSelectedMeme}:{
+    memes: Meme[],
+    selectedMeme: Meme | null,
+    setSelectedMeme: React.Dispatch<React.SetStateAction<Meme | null>>
+},ref: ForwardedRef<HTMLDivElement|undefined>) => {
     const context = React.useContext(SettingsContext)
     const [openOtherMemes, setOpenOtherMemes] = React.useState(false)
     const [memeValue, setMemeValue] = React.useState("")
@@ -156,10 +154,14 @@ export default function MemeSettings({ memes, selectedMeme, setSelectedMeme, mem
                 <Button
                     variant={"ghost"}
                     className='w-full'
-                    onClick={() => handleGenerateMeme(memeRef)}>
+                    onClick={() => handleGenerateMeme(ref)}>
                     Download Meme <Download className='ml-2 h-4 w-4' />
                 </Button>
             </CardFooter>
         </Card>
     )
-}
+})
+
+MemeSettings.displayName = 'MemeSettings'
+
+export default MemeSettings

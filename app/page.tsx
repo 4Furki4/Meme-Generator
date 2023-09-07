@@ -66,8 +66,8 @@ export default function Home() {
   return (
     <SettingsContext.Provider value={{ memeSettings, setMemeSettings }}>
       <main className='flex flex-col lg:flex-row w-11/12 lg:w-3/4 mx-auto gap-4 my-12'>
-        <MainMeme memeRef={memeRef} selectedMeme={selectedMeme} />
-        <MemeSettings memeRef={memeRef} memes={data.data.memes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
+        <MainMeme ref={memeRef} selectedMeme={selectedMeme} />
+        <MemeSettings ref={memeRef} memes={data.data.memes} selectedMeme={selectedMeme} setSelectedMeme={setSelectedMeme} />
       </main>
     </SettingsContext.Provider>
   )

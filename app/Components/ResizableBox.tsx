@@ -1,29 +1,33 @@
 "use client"
-import React from 'react'
+//tsignore(2339)
+import React, { ForwardedRef, useEffect } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { motion } from 'framer-motion'
-import { getFontFamilyClass, timesNewRoman } from '@/lib/fontFamily'
+import { getFontFamilyClass } from '@/lib/fontFamily'
 
 
 type ResizableBoxProps = React.AllHTMLAttributes<HTMLDivElement>
 
-
-
-export default function ResizableBox({ className, maxWidth, maxHeight, settings }:
-    ResizableBoxProps & {
-        maxWidth: number,
-        maxHeight: number,
-        settings: MemeTextSetting
-    }) {
-    console.log("vertical alignment" ,settings?.verticalAlign)
-    console.log("text alignment" ,settings?.textAlign)
+const ResizableBox = React.forwardRef<HTMLDivElement, ResizableBoxProps & {
+    settings: MemeTextSetting
+}>(({ className, settings }, ref: ForwardedRef<HTMLDivElement>) => {
     const [isDraggable, setIsDraggable] = React.useState<boolean>(true)
     const boxRef = React.useRef<HTMLDivElement>(null)
     const [boxSize, setBoxSize] = React.useState<{ width: number, height: number }>({
         width: boxRef.current?.clientWidth!,
         height: boxRef.current?.clientHeight!
     })
-    console.log(settings?.fontFamily, settings?.text)
+    const [memeSize, setMemeSize] = React.useState<{ width: number, height: number }>({
+        width: typeof ref !== "function" ? ref?.current?.clientWidth! : 0,
+        height: typeof ref !== "function" ? ref?.current?.clientHeight! : 0
+    })
+    useEffect(() => {
+        setMemeSize({
+            width: typeof ref !== "function" ? ref?.current?.clientWidth! : 0,
+            height: typeof ref !== "function" ? ref?.current?.clientHeight! : 0
+        })
+    },[memeSize])
+    if(typeof ref === "function") return null
     return (
         <motion.div
             ref={boxRef}
@@ -33,12 +37,13 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
             dragConstraints={{
                 top: 0,
                 left: 0,
-                right: maxWidth - boxSize.width,
-                bottom: maxHeight - boxSize.height,
+                right: memeSize.width - boxSize.width,
+                bottom: memeSize.height - boxSize.height
             }}
             onDragEnd={(event, info) => {
                 if (boxRef.current?.clientHeight !== boxSize.height || boxRef.current?.clientWidth !== boxSize.width) {
                     setBoxSize({ width: boxRef.current?.clientWidth!, height: boxRef.current?.clientHeight! })
+                    setMemeSize({ width: ref?.current?.clientWidth!, height: ref?.current?.clientHeight! })
                 }
             }}
             dragElastic={1}
@@ -46,7 +51,6 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
             style={
                 {
                     resize: "both",
-                    maxWidth, maxHeight,
                     color: settings?.color,
                     textTransform: settings?.isAllCaps ? "uppercase" : "initial",
                     fontWeight: settings?.isBold ? "bold" : "normal",
@@ -67,4 +71,9 @@ export default function ResizableBox({ className, maxWidth, maxHeight, settings 
             <span>{settings?.text}</span>
         </motion.div >
     )
-}
+
+})
+
+ResizableBox.displayName = "ResizableBox"
+
+export default ResizableBox
