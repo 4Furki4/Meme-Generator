@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image"
 import ResizableBox from "./ResizableBox"
-import { ForwardedRef, forwardRef, useContext, useRef } from "react"
+import { ForwardedRef, forwardRef, useContext } from "react"
 import { SettingsContext } from "@/context/SettingsProvider"
 
 const MainMeme = forwardRef(({ selectedMeme }: { selectedMeme: Meme | null }, ref : ForwardedRef<HTMLDivElement>) => {
@@ -9,16 +9,13 @@ const MainMeme = forwardRef(({ selectedMeme }: { selectedMeme: Meme | null }, re
     for (let i = 0; i < selectedMeme?.box_count!; i++) {
         boxCount.push(i)
     }
+
     const context = useContext(SettingsContext)
-    const imageRef = useRef<HTMLImageElement>(null)
-    const imageWidth = imageRef.current?.width
-    const imageHeight = imageRef.current?.height
     return (
         <div className="basis-full rounded-lg flex flex-col items-center">
             {selectedMeme && (
                 <div ref={ref} className="relative max-w-max">
                     <Image
-                        ref={imageRef}
                         className={`relative`}
                         alt={selectedMeme?.name}
                         width={selectedMeme?.width}
@@ -28,9 +25,8 @@ const MainMeme = forwardRef(({ selectedMeme }: { selectedMeme: Meme | null }, re
                         {
                             boxCount.map((box) => (
                                 <ResizableBox
+                                    ref={ref}
                                     settings={context?.memeSettings?.settings[box]!}
-                                    maxHeight={imageHeight!}
-                                    maxWidth={imageWidth!}
                                     key={box}
                                 />
                             ))
