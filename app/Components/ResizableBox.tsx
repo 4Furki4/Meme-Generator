@@ -26,7 +26,7 @@ const ResizableBox = React.forwardRef<HTMLDivElement, ResizableBoxProps & {
             width: typeof ref !== "function" ? ref?.current?.clientWidth! : 0,
             height: typeof ref !== "function" ? ref?.current?.clientHeight! : 0
         })
-    },[memeSize])
+    },[ref?.current?.clientHeight !== memeSize.height, ref?.current?.clientWidth !== memeSize.width])
     if(typeof ref === "function") return null
     return (
         <motion.div
